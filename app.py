@@ -84,15 +84,15 @@ def search_and_download(search_term: str, driver_path: str, target_path='./image
     if not os.path.exists(target_folder):
         os.makedirs(target_folder)
 
-    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    #GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    #CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
-    chrome_options.binary_location = GOOGLE_CHROME_PATH
+    chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
 
-    with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,chrome_options=chrome_options) as wd:
+    with webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')),chrome_options=chrome_options) as wd:
         res = fetch_image_urls(search_term, number_images, wd=wd, sleep_between_interactions=0.5)
 
     counter = 0
